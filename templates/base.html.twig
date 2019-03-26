@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+
+    {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal">Company name</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="#">Features</a>
+    <a class="p-2 text-dark" href="#">Enterprise</a>
+    <a class="p-2 text-dark" href="#">Support</a>
+    <a class="p-2 text-dark" href="#">Pricing</a>
+  </nav>
+  {% if app.user %}
+        <a class="btn btn-primary" href="{{ path('fos_user_profile_show') }}">{{ app.user.username }}</a>&nbsp;
+        <a class="btn btn-danger" href="{{ path('fos_user_security_logout') }}">Uitloggen</a>
+    {% else %}
+        <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">Login</a>&nbsp;
+        <a class="btn btn-success" href="{{ path('fos_user_registration_register') }}">Registreren</a>
+    {% endif %}
+</div>
+
+        
+        <div class="container">
+  {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+
+        </div>
+    </body>
+</html>
